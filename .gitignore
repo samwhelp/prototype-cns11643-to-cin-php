@@ -1,0 +1,15 @@
+temp/*
+#composer.phar
+#vendor/
+
+# Commit your application's lock file http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file
+# You may choose to ignore a library lock file http://getcomposer.org/doc/02-libraries.md#lock-file
+# composer.lock
+
+asset/Open_Data.zip
+asset/Open_Data
+
+asset/data/CNS_phonetic.txt
+asset/data/CNS2UNICODE_Unicode_2.txt
+asset/data/CNS2UNICODE_Unicode_15.txt
+asset/data/CNS2UNICODE_Unicode_BMP.txt

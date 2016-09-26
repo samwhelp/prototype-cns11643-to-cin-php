@@ -1,0 +1,23 @@
+{
+    "name": "samwhelp/prototype-cns11643-to-cin-php",
+    "description": "cns11643 to cin",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "samwhelp",
+            "email": "samwhelp@users.noreply.github.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Cns\\": "src/Cns/"
+        }
+    },
+	"scripts": {
+        "cin": "./bin/cin.php",
+		"cin-asset": "./bin/asset.sh",
+		"cin-usage": "./bin/usage.sh"
+    },
+    "require": {}
+}
