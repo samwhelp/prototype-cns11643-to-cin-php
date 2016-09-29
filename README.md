@@ -91,10 +91,10 @@ $ wc -l var/CnsPhonetic.cin
 
 ## 相關專案
 
-* [https://github.com/samwhelp/CinConvert](https://github.com/samwhelp/CinConvert)
-* [https://github.com/samwhelp/prototype-cns11643-to-cin-nodejs](https://github.com/samwhelp/prototype-cns11643-to-cin-nodejs)
-* [https://github.com/samwhelp/prototype-cns11643-to-cin-gjs](https://github.com/samwhelp/prototype-cns11643-to-cin-gjs)
-* [https://github.com/samwhelp/prototype-cns11643-to-cin](https://github.com/samwhelp/prototype-cns11643-to-cin)
+* [CinConvert](https://github.com/samwhelp/CinConvert)
+* [util-cns11643-to-cin-nodejs](https://github.com/samwhelp/util-cns11643-to-cin-nodejs)
+* [util-cns11643-to-cin-gjs](https://github.com/samwhelp/util-cns11643-to-cin-gjs)
+* [prototype-cns11643-to-cin](https://github.com/samwhelp/prototype-cns11643-to-cin)
 
 
 ## 相關討論
