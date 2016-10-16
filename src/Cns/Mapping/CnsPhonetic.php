@@ -2,70 +2,27 @@
 
 namespace Cns\Mapping;
 
-class CnsPhonetic {
+class CnsPhonetic extends Base {
 
-	public static function newInstance()
+	protected function prep()
 	{
-        return new static(); //http://php.net/manual/en/language.oop5.late-static-bindings.php
-    }
+		if ($this->_FileList === null) {
+			$this->_FileList = \Cns\Data\BaseList::newInstance();
+		}
 
-	public function __construct()
-	{
-		$this->init();
+		if ($this->_Table === null) {
+			$this->_Table = \Cns\Data\BaseList::newInstance();
+		}
+
+		return true;
 	}
 
-	public function init()
+	public function load()
 	{
-		$this->_FileList = \Cns\Data\BaseList::newInstance();
-		$this->_Table = \Cns\Data\BaseList::newInstance();
-		return $this;
-	}
+		if ($this->prep() === false) {
+			return false;
+		}
 
-	public function prep()
-	{
-		$this->load();
-		return $this;
-	}
-
-	protected $_Table = null;
-	public function getTable()
-	{
-		return $this->_Table;
-	}
-
-	protected $_FileList = null;
-	public function getFileList()
-	{
-		return $this->_FileList;
-	}
-	public function setFileList($val)
-	{
-		$this->_FileList = $val;
-		return $this;
-	}
-	public function defFileList()
-	{
-
-		return \Cns\Data\BaseList::newInstance()
-			->push(THE_DATA_TABLE_PHONETIC_FILE_PATH)
-			->push(THE_DATA_TABLE_PHONETIC_OTHER_FILE_PATH) //http://www.cns11643.gov.tw/AIDB/query_symbol_results.do
-		;
-
-		/*
-		return \Cns\Data\BaseList::newInstance()
-			->push('data/CNS_phonetic.txt')
-			->push('data/Other_phonetic.txt') //http://www.cns11643.gov.tw/AIDB/query_symbol_results.do
-		;
-		*/
-	}
-	public function setDefaultFileList()
-	{
-		$this->setFileList($this->defFileList());
-		return $this;
-	}
-
-	protected function load()
-	{
 		$list = $this->_FileList->toArray();
 		foreach ($list as $path) {
 			$this->loadFile($path);
@@ -128,6 +85,43 @@ class CnsPhonetic {
 
 		$this->_Table->push($item);
 
+	}
+
+	protected $_Table = null;
+	public function getTable()
+	{
+		return $this->_Table;
+	}
+
+	protected $_FileList = null;
+	public function getFileList()
+	{
+		return $this->_FileList;
+	}
+	public function setFileList($val)
+	{
+		$this->_FileList = $val;
+		return $this;
+	}
+	public function defFileList()
+	{
+
+		return \Cns\Data\BaseList::newInstance()
+			->push(THE_DATA_TABLE_PHONETIC_FILE_PATH)
+			->push(THE_DATA_TABLE_PHONETIC_OTHER_FILE_PATH) //http://www.cns11643.gov.tw/AIDB/query_symbol_results.do
+		;
+
+		/*
+		return \Cns\Data\BaseList::newInstance()
+			->push('data/CNS_phonetic.txt')
+			->push('data/Other_phonetic.txt') //http://www.cns11643.gov.tw/AIDB/query_symbol_results.do
+		;
+		*/
+	}
+	public function setDefaultFileList()
+	{
+		$this->setFileList($this->defFileList());
+		return $this;
 	}
 
 	public function createUrl($cns, $grp)

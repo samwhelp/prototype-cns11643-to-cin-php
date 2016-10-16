@@ -2,32 +2,17 @@
 
 namespace Cns\Util;
 
-class BaseFile {
-
-	public static function newInstance()
-	{
-        return new static(); //http://php.net/manual/en/language.oop5.late-static-bindings.php
-    }
-
-	public function __construct()
-	{
-		$this->init();
-	}
-
-	public function init()
-	{
-		return $this;
-	}
-
-	public function prep()
-	{
-		return $this;
-	}
+class BaseFile extends Base {
 
 	public function save()
 	{
+		if ($this->prep() === false) {
+			return false;
+		}
+
 		file_put_contents($this->_Path, $this->_Content);
-		return $this;
+
+		return true;
 	}
 
 	protected $_Path = '';

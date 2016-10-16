@@ -6,22 +6,24 @@ class BaseMap {
 
 	public static function newInstance()
 	{
-        return new static(); //http://php.net/manual/en/language.oop5.late-static-bindings.php
-    }
+		//http://php.net/manual/en/language.oop5.late-static-bindings.php
+        return new static();
+	}
 
 	public function __construct()
 	{
+		//http://php.net/manual/en/language.oop5.decon.php
 		$this->init();
 	}
 
-	public function init()
+	protected function init()
 	{
-		return $this;
+		return true;
 	}
 
-	public function prep()
+	protected function prep()
 	{
-		return $this;
+		return true;
 	}
 
 	protected $_Raw = array();

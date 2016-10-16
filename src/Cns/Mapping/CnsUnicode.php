@@ -2,79 +2,31 @@
 
 namespace Cns\Mapping;
 
-class CnsUnicode {
+class CnsUnicode extends Base {
 
-	public static function newInstance()
+	protected function prep()
 	{
-        return new static(); //http://php.net/manual/en/language.oop5.late-static-bindings.php
-    }
+		if ($this->_FileList === null) {
+			$this->_FileList = \Cns\Data\BaseList::newInstance();
+		}
 
-	public function __construct()
-	{
-		$this->init();
+		if ($this->_Map === null) {
+			$this->_Map = \Cns\Data\BaseMap::newInstance();
+		}
+
+		if ($this->_Collision === null) {
+			$this->_Collision = \Cns\Data\BaseList::newInstance();
+		}
+
+		return true;
 	}
 
-	public function init()
+	public function load()
 	{
-		$this->_FileList = \Cns\Data\BaseList::newInstance();
-		$this->_Map = \Cns\Data\BaseMap::newInstance();
-		$this->_Collision = \Cns\Data\BaseList::newInstance();
-		return $this;
-	}
+		if ($this->prep() === false) {
+			return false;
+		}
 
-	public function prep()
-	{
-		$this->load();
-		return $this;
-	}
-
-	protected $_Map = null;
-	public function getMap()
-	{
-		return $this->_Map;
-	}
-
-	protected $_Collision = null;
-	public function getCollision()
-	{
-		return $this->_Collision;
-	}
-
-	protected $_FileList = null;
-	public function setFileList($val)
-	{
-		$this->_FileList = $val;
-		return $this;
-	}
-	public function getFileList()
-	{
-		return $this->_FileList;
-	}
-	public function defFileList()
-	{
-
-		return \Cns\Data\BaseList::newInstance()
-			->push(THE_DATA_TABLE_CNS2UNI_BMP_FILE_PATH)
-			->push(THE_DATA_TABLE_CNS2UNI_2_FILE_PATH)
-			->push(THE_DATA_TABLE_CNS2UNI_15_FILE_PATH)
-		;
-
-/*
-		return \Cns\Data\BaseList::newInstance()
-			->push('data/CNS2UNICODE_Unicode_BMP.txt')
-			->push('data/CNS2UNICODE_Unicode_2.txt')
-			->push('data/CNS2UNICODE_Unicode_15.txt')
-		;
-*/
-	}
-	public function setDefaultFileList()
-	{
-		$this->setFileList($this->defFileList());
-		return $this;
-	}
-
-	protected function load()
-	{
 		$list = $this->_FileList->toArray();
 		foreach ($list as $path) {
 			$this->loadFile($path);
@@ -146,6 +98,53 @@ class CnsUnicode {
 
 		$this->_Map->put($key, $item);
 	}
+	
+
+	protected $_Map = null;
+	public function getMap()
+	{
+		return $this->_Map;
+	}
+
+	protected $_Collision = null;
+	public function getCollision()
+	{
+		return $this->_Collision;
+	}
+
+	protected $_FileList = null;
+	public function setFileList($val)
+	{
+		$this->_FileList = $val;
+		return $this;
+	}
+	public function getFileList()
+	{
+		return $this->_FileList;
+	}
+	public function defFileList()
+	{
+
+		return \Cns\Data\BaseList::newInstance()
+			->push(THE_DATA_TABLE_CNS2UNI_BMP_FILE_PATH)
+			->push(THE_DATA_TABLE_CNS2UNI_2_FILE_PATH)
+			->push(THE_DATA_TABLE_CNS2UNI_15_FILE_PATH)
+		;
+
+/*
+		return \Cns\Data\BaseList::newInstance()
+			->push('data/CNS2UNICODE_Unicode_BMP.txt')
+			->push('data/CNS2UNICODE_Unicode_2.txt')
+			->push('data/CNS2UNICODE_Unicode_15.txt')
+		;
+*/
+	}
+	public function setDefaultFileList()
+	{
+		$this->setFileList($this->defFileList());
+		return $this;
+	}
+
 
 	public function findUnicode_ByCnsGrp($cns, $grp)
 	{

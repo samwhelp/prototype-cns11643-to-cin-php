@@ -1,8 +1,8 @@
 <?php
 
-namespace Cns\Data;
+namespace Cns\Converter;
 
-class BaseList {
+abstract class Base {
 
 	public static function newInstance()
 	{
@@ -26,25 +26,15 @@ class BaseList {
 		return true;
 	}
 
-	protected $_Raw = array();
-
-	public function push($val)
+	public function run()
 	{
-		array_push($this->_Raw, $val);
-		return $this;
-	}
+		//var_dump(__METHOD__);
 
-	public function ref($key)
-	{
-		if (!array_key_exists($key, $this->_Raw)) {
-			return '';
+		if ($this->prep() === false) {
+			return false;
 		}
-		return $this->_Raw[$key];
-	}
 
-	public function toArray()
-	{
-		return $this->_Raw;
+		return true;
 	}
 
 } // End Class

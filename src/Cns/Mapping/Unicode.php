@@ -2,27 +2,7 @@
 
 namespace Cns\Mapping;
 
-class Unicode {
-
-	public static function newInstance()
-	{
-        return new static(); //http://php.net/manual/en/language.oop5.late-static-bindings.php
-    }
-
-	public function __construct()
-	{
-		$this->init();
-	}
-
-	public function init()
-	{
-		return $this;
-	}
-
-	public function prep()
-	{
-		return $this;
-	}
+class Unicode extends Base {
 
 	protected function fromCodePoint($dec)
 	{
@@ -105,6 +85,53 @@ class Unicode {
 	{
 		return dechex($dec);
 	}
+
+	public function findHtmlEntityDec_ByDec($dec)
+	{
+		return '&#' . intval($dec) . ';';
+	}
+
+	public function findHtmlEntityHex_ByHex($hex)
+	{
+		return '&#x' . $hex . ';';
+	}
+
+	public function findHtmlEntityHex_ByDec($dec)
+	{
+		$hex = $this->findHex_ByDec($dec);
+
+		return $this->findHtmlEntityHex_ByHex($hex);
+	}
+
+	public function findHtmlEntityDec_ByHex($hex)
+	{
+		$dec = $this->findDec_ByHex($hex);
+
+		return $this->findHtmlEntityDec_ByDec($dec);
+	}
+
+	public function uniformDec($dec)
+	{
+		$dec = intval($dec);
+
+		if ($dec < 1000) {
+			return sprintf('%04d', $dec);
+		}
+
+		return $dec;
+	}
+
+	public function uniformHex($hex)
+	{
+		$dec = $this->findDec_ByHex($hex);
+
+		if ($dec <65536) {
+			return strtoupper(sprintf('%04s', $hex));
+		}
+
+		return strtoupper($hex);
+	}
+
 
 
 } // End Class

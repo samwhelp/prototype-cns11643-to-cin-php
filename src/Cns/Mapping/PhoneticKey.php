@@ -2,27 +2,15 @@
 
 namespace Cns\Mapping;
 
-class PhoneticKey {
+class PhoneticKey extends Base {
 
-	public static function newInstance()
+	protected function prep()
 	{
-        return new static(); //http://php.net/manual/en/language.oop5.late-static-bindings.php
-    }
+		if ($this->_Phonetic === null) {
+			$this->_Phonetic = Phonetic::newInstance();
+		}
 
-	public function __construct()
-	{
-		$this->init();
-	}
-
-	public function init()
-	{
-		$this->_Phonetic = new Phonetic();
-		return $this;
-	}
-
-	public function prep()
-	{
-		return $this;
+		return true;
 	}
 
 	protected $_Map = [

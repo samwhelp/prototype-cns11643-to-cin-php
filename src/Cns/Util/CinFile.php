@@ -4,13 +4,14 @@ namespace Cns\Util;
 
 class CinFile extends BaseFile {
 
-	public function save()
+	protected function prep()
 	{
 		if ($this->_Content === null) {
 			$this->_Content = $this->defContent();
 		}
 
-		parent::save();
+
+		return true;
 	}
 
 	protected $_Path = 'CnsPhonetic.cin';

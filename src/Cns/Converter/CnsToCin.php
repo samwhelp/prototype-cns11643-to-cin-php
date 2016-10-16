@@ -2,97 +2,81 @@
 
 namespace Cns\Converter;
 
-class CnsToCin {
+class CnsToCin extends Base {
 
-	protected $_EOL = PHP_EOL;
-	protected $_SEGMENT = "\t";
-	protected $_QUOTE = '"';
-
-	protected $_PhoneticList = null;
-	protected $_InvalidPhonetic = null;
-
-	protected $_UnicodePhonetic = null;
-	protected $_UnicodePhoneticCollision = null;
-
-	protected $_CnsPhonetic = null;
-	protected $_CnsUnicode = null;
-	protected $_Unicode = null;
-	protected $_Phonetic = null;
-	protected $_PhoneticKey = null;
-
-	public static function newInstance()
+	protected function prep()
 	{
-        return new static(); //http://php.net/manual/en/language.oop5.late-static-bindings.php
-    }
+		if ($this->_PhoneticList === null) {
+			$this->_PhoneticList = \Cns\Data\BaseList::newInstance();
+		}
 
-	public function __construct()
-	{
-		$this->init();
-	}
+		if ($this->_InvalidPhonetic === null) {
+			$this->_InvalidPhonetic = \Cns\Data\BaseList::newInstance();
+		}
 
-	public function init()
-	{
-		$this->_PhoneticList = \Cns\Data\BaseList::newInstance();
-		$this->_InvalidPhonetic = \Cns\Data\BaseList::newInstance();
-		$this->_UnicodePhonetic = \Cns\Data\BaseMap::newInstance();
-		$this->_UnicodePhoneticCollision = \Cns\Data\BaseList::newInstance();
+		if ($this->_UnicodePhonetic === null) {
+			$this->_UnicodePhonetic = \Cns\Data\BaseMap::newInstance();
+		}
 
-		$this->_CnsPhonetic = \Cns\Mapping\CnsPhonetic::newInstance();
-		$this->_CnsUnicode = \Cns\Mapping\CnsUnicode::newInstance();
-		$this->_Unicode = \Cns\Mapping\Unicode::newInstance();
-		$this->_Phonetic = \Cns\Mapping\Phonetic::newInstance();
+		if ($this->_UnicodePhoneticCollision === null) {
+			$this->_UnicodePhoneticCollision = \Cns\Data\BaseList::newInstance();
+		}
 
-		$this->_PhoneticKey = \Cns\Mapping\PhoneticKey::newInstance()
-			->setPhonetic($this->_Phonetic)
-		;
+		if ($this->_CnsUnicode === null) {
+			$this->_CnsUnicode = \Cns\Mapping\CnsUnicode::newInstance();
+		}
 
-	}
+		if ($this->_CnsPhonetic === null) {
+			$this->_CnsPhonetic = \Cns\Mapping\CnsPhonetic::newInstance();
+		}
 
-	public function prep()
-	{
-		$this->_PhoneticList
-			->prep()
-		;
+		if ($this->_Unicode === null) {
+			$this->_Unicode = \Cns\Mapping\Unicode::newInstance();
+		}
 
-		$this->_InvalidPhonetic
-			->prep()
-		;
+		if ($this->_Phonetic === null) {
+			$this->_Phonetic = \Cns\Mapping\Phonetic::newInstance();
+		}
 
-		$this->_UnicodePhonetic
-			->prep()
-		;
+		if ($this->_PhoneticKey === null) {
+			$this->_PhoneticKey = \Cns\Mapping\PhoneticKey::newInstance();
+		}
 
-		$this->_UnicodePhoneticCollision
-			->prep()
-		;
+		$this->_PhoneticKey->setPhonetic($this->_Phonetic);
+
 
 		$this->_CnsPhonetic
 			->setDefaultFileList()
-			->prep()
+			->load()
 		;
 
 		$this->_CnsUnicode
 			->setDefaultFileList()
-			->prep()
+			->load()
 		;
 
 		$this->_Unicode
-			->prep()
+			->load()
 		;
 
 		$this->_Phonetic
-			->prep()
+			->load()
 		;
 
 		$this->_PhoneticKey
-			->prep()
+			->load()
 		;
 
-		return $this;
+
+		return true;
 	}
 
 	public function run()
 	{
+
+		if ($this->prep() === false) {
+			return false;
+		}
 
 		$table = $this->_CnsPhonetic->getTable()->toArray();
 		foreach ($table as $cns_phonetic) {
@@ -154,7 +138,7 @@ class CnsToCin {
 		$this->logUnicodeCollision();
 
 
-		return $this;
+		return true;
 	}
 
 	protected function createCin()
@@ -417,5 +401,23 @@ class CnsToCin {
 
 		return $rtn;
 	}
+
+
+	protected $_EOL = PHP_EOL;
+	protected $_SEGMENT = "\t";
+	protected $_QUOTE = '"';
+
+	protected $_PhoneticList = null;
+	protected $_InvalidPhonetic = null;
+
+	protected $_UnicodePhonetic = null;
+	protected $_UnicodePhoneticCollision = null;
+
+	protected $_CnsUnicode = null;
+	protected $_CnsPhonetic = null;
+	protected $_Unicode = null;
+	protected $_Phonetic = null;
+	protected $_PhoneticKey = null;
+
 
 } // End Class
