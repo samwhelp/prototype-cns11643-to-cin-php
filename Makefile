@@ -3,13 +3,19 @@ THE_MAKEFILE_FILE_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
 THE_BASE_DIR_PATH := $(abspath $(dir $(THE_MAKEFILE_FILE_PATH)))
 THE_BIN_DIR_PATH := $(THE_BASE_DIR_PATH)/bin
 
-.PHONY: usage cin asset
+PATH := $(THE_BIN_DIR_PATH):$(PATH)
 
-usage:
-	$(THE_BIN_DIR_PATH)/usage.sh
+default: help
+.PHONY: default
+
+help:
+	@help.sh
+.PHONY: help
 
 cin:
-	$(THE_BIN_DIR_PATH)/cin.php
+	@cin.php
+.PHONY: cin
 
 asset:
-	$(THE_BIN_DIR_PATH)/asset.sh
+	@asset.sh
+.PHONY: asset
