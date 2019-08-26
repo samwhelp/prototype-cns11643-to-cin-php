@@ -50,10 +50,12 @@ class CnsToCin extends Base {
 			->load()
 		;
 
+
 		$this->_CnsUnicode
 			->setDefaultFileList()
 			->load()
 		;
+
 
 		$this->_Unicode
 			->load()
@@ -78,15 +80,19 @@ class CnsToCin extends Base {
 			return false;
 		}
 
+
+
 		$table = $this->_CnsPhonetic->getTable()->toArray();
 		foreach ($table as $cns_phonetic) {
-			//var_dump($cns_phonetic);
+
 
 			$cns_unicode = $this->_CnsUnicode->findItem_ByCnsGrp($cns_phonetic->ref('cns'), $cns_phonetic->ref('grp'));
 
 			$item = \Cns\Data\CinItem::newInstance();
 
 			$key_seq = $this->_PhoneticKey->findKeySeq_ByCharSeq_ValidChar($cns_phonetic->ref('phonetic'));
+
+
 
 			$item
 				//cns_unicode
@@ -377,10 +383,11 @@ class CnsToCin extends Base {
 
 		$table = $this->_UnicodePhoneticCollision->toArray();
 
+
 		foreach ($table as $list) {
-			if (count($list)) {
-				$rtn .= $this->eachUnicodeCollisionList($list->toArray());
-			}
+
+			$rtn .= $this->eachUnicodeCollisionList($list->toArray());
+
 		}
 
 		\Cns\Util\BaseFile::newInstance()

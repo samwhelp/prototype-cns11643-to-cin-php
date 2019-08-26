@@ -80,10 +80,18 @@ class CnsUnicode extends Base {
 	{
 		$list = explode("\t", $str); //http://php.net/manual/en/function.explode.php
 
+		//var_dump($list);
+		$temp = explode("-", $list[0]);
+		$grp = $temp[0];
+		$cns = $temp[1];
+
+		$unicode = $list[1];
+
+
 		$item = \Cns\Data\CnsUnicodeItem::newInstance()
-			->put('grp', $list[0])
-			->put('cns', $list[1])
-			->put('unicode', $list[2])
+			->put('grp', $grp)
+			->put('cns', $cns)
+			->put('unicode', $unicode)
 			->put('cnsunicode_line', $line)
 			->put('cnsunicode_file', $file)
 		;
@@ -98,7 +106,7 @@ class CnsUnicode extends Base {
 
 		$this->_Map->put($key, $item);
 	}
-	
+
 
 	protected $_Map = null;
 	public function getMap()
